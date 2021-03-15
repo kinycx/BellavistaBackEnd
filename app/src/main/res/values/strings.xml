@@ -9,4 +9,7 @@
     <string name="set">Set</string>
     <string name="hello_first_fragment">Fragment Pizzeria</string>
     <string name="hello_second_fragment">Fragment Trackfood. Arg: %1$s</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>
