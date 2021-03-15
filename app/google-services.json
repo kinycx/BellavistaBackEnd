@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "770688707489",
+    "project_id": "bellavista-307208",
+    "storage_bucket": "bellavista-307208.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770688707489:android:65aeacdc168def5120b9e0",
+        "android_client_info": {
+          "package_name": "com.bro.bellavistabackend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770688707489-q2ov1vuqnpd6cehj38b8k4g5bhsu428t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTsyFpXq0kEvZ3A3xZogwdh2PeM8jg2uE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770688707489-q2ov1vuqnpd6cehj38b8k4g5bhsu428t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

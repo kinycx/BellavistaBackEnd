@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,8 +16,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.bro.bellavistabackend.MainActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MapFragment extends Fragment {
+
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mLatRef = mRootRef.child("latitude");
+    DatabaseReference mLongRef = mRootRef.child("longitude");
+
 
     @Override
     public View onCreateView(
@@ -28,6 +37,9 @@ public class MapFragment extends Fragment {
 
         SupportMapFragment supportMapFragment =  (SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.google_map);
+
+        TextView textView = (TextView) view.findViewById(R.id.set);
+        textView.setText("AbhiAndroid"); //set text for text view
 
         //mappa asincrona
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -49,7 +61,11 @@ public class MapFragment extends Fragment {
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                         //aggiungi marker
                         googleMap.addMarker(markerOptions);
-
+                        //
+                        textView.setText(latLng.latitude + " : " + latLng.longitude);
+                        //
+                        mLatRef.setValue(latLng.latitude);
+                        mLongRef.setValue(latLng.longitude);
                     }
                 });
             }
