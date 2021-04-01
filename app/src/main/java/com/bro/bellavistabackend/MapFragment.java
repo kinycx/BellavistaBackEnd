@@ -21,8 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MapFragment extends Fragment {
 
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference mLatRef = mRootRef.child("latitude");
-    DatabaseReference mLongRef = mRootRef.child("longitude");
+    DatabaseReference mLatRef = mRootRef.child("trackfood1").child("latitude");
+    DatabaseReference mLongRef = mRootRef.child("trackfood1").child("longitude");
+
     boolean isPermissionGranted = true;
     GoogleMap mGoogleMap;
 
