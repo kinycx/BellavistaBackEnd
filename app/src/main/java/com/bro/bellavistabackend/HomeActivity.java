@@ -16,12 +16,15 @@ import android.widget.Button;
 
 public class HomeActivity extends AppCompatActivity {
 
-    Button buttonTruck = findViewById(R.id.buttonTruckFood);
-    Button Pizzeria = findViewById(R.id.buttonPizzeria);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
+        Button buttonTruck = findViewById(R.id.buttonTruckFood);
+        Button Pizzeria = findViewById(R.id.buttonPizzeria);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

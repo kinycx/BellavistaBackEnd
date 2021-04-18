@@ -1,7 +1,15 @@
 package com.bro.bellavistabackend;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -12,7 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ActivityChooserView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.View;
@@ -38,8 +48,8 @@ public class TruckFoodActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.frame_layout, fragment)
                 .commit();
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
