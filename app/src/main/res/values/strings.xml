@@ -5,7 +5,7 @@
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="trackfood">TrackFood</string>
-    <string name="pizzeria">Pizzeria</string>
+    <string name="location">Location</string>
     <string name="set">Set</string>
     <string name="hello_first_fragment">Fragment Pizzeria</string>
     <string name="hello_second_fragment">Fragment Trackfood. Arg: %1$s</string>
