@@ -49,6 +49,7 @@ public class MapFragment extends Fragment {
 
     GoogleMap mGoogleMap;
     FloatingActionButton mPositionButton;
+    FloatingActionButton mStop;
 
 
 
@@ -60,6 +61,7 @@ public class MapFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         // Inflate the layout for this fragment
 
+        mStop = view.findViewById(R.id.stop);
         mPositionButton = view.findViewById(R.id.currentLocation);
 
         Context context;
@@ -98,6 +100,17 @@ public class MapFragment extends Fragment {
                                 googleMap.addMarker(markerOptions);
                                 mLatRef.setValue(latLng.latitude);
                                 mLongRef.setValue(latLng.longitude);
+                            }
+                        });
+
+                        mStop.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                googleMap.clear();
+                                Snackbar.make(v, "Fermata la condivisione sul sito", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                mLatRef.setValue(0);
+                                mLongRef.setValue(0);
                             }
                         });
 
