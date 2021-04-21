@@ -37,17 +37,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class MapFragment extends Fragment {
 
-    static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mLatRef = mRootRef.child("trackfood1").child("latitude");
     DatabaseReference mLongRef = mRootRef.child("trackfood1").child("longitude");
-    private FusedLocationProviderClient fusedLocationClient;
 
 
-    GoogleMap mGoogleMap;
     FloatingActionButton mPositionButton;
     FloatingActionButton mStop;
 
@@ -64,61 +62,54 @@ public class MapFragment extends Fragment {
         mStop = view.findViewById(R.id.stop);
         mPositionButton = view.findViewById(R.id.currentLocation);
 
-        Context context;
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(view.getContext());
-
         getCurrentLocation();
         return view;
     }
 
     private void getCurrentLocation() {
         //check permission
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             //posizione GPS
             SupportMapFragment supportMapFragment = (SupportMapFragment)
                     getChildFragmentManager().findFragmentById(R.id.google_map);
+            FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
             Task<Location> task = fusedLocationClient.getLastLocation();
             //
             task.addOnSuccessListener(location -> {
                 if (location != null) {
                     //mappa asincrona
+                    assert supportMapFragment != null;
                     supportMapFragment.getMapAsync(googleMap -> {
                         googleMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(41.205637138900705,16.58963978290558) , 12) );
                         //floating GPS button
-                        mPositionButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                googleMap.clear();
-                                Snackbar.make(v, "Settata la posizione corrente", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                                MarkerOptions markerOptions = new MarkerOptions().position(latLng)
-                                        .title("sono qui");
-                                //icona bitmap
-                                //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.));
-                                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-                                googleMap.addMarker(markerOptions);
-                                mLatRef.setValue(latLng.latitude);
-                                mLongRef.setValue(latLng.longitude);
-                            }
+                        mPositionButton.setOnClickListener(v -> {
+                            googleMap.clear();
+                            Snackbar.make(v, "Settata la posizione corrente", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            MarkerOptions markerOptions = new MarkerOptions().position(latLng)
+                                    .title("sono qui");
+                            //icona bitmap
+                            //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.));
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                            googleMap.addMarker(markerOptions);
+                            mLatRef.setValue(latLng.latitude);
+                            mLongRef.setValue(latLng.longitude);
                         });
 
-                        mStop.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                googleMap.clear();
-                                Snackbar.make(v, "Fermata la condivisione sul sito", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                                mLatRef.setValue(0);
-                                mLongRef.setValue(0);
-                            }
+                        mStop.setOnClickListener(v -> {
+                            googleMap.clear();
+                            Snackbar.make(v, "Fermata la condivisione sul sito", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            mLatRef.setValue(0);
+                            mLongRef.setValue(0);
                         });
 
                         //fine location GPS
                         //click su mappa
                         googleMap.setOnMapClickListener(latLng1 -> {
                             //quando clicchi sulla mappa
-                            Snackbar.make(getView(), "Posizione settata manualmente", Snackbar.LENGTH_LONG)
+                            Snackbar.make(requireView(), "Posizione settata manualmente", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             MarkerOptions markerOptions1 = new MarkerOptions();
                             //icona bitmap
@@ -150,12 +141,13 @@ public class MapFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode==44){
-            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                getCurrentLocation();
+        switch (requestCode) {
+            case 44: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getCurrentLocation();
+                }
             }
         }
     }
-
 
 }
